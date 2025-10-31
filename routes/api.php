@@ -6,6 +6,7 @@ use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\UserController;
+use App\Models\Area;
 use Illuminate\Support\Facades\Route;
 
 // Rutas públicas
@@ -26,4 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/documentos', [DocumentoController::class, 'store']); // registrar
     Route::get('/documentos/{id}', [DocumentoController::class, 'show']); // detalle
     Route::get('/tipo-documentos', [TipoDocumentoController::class, 'index']);
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/areas', fn() =>
+        Area::select('id','nombre')->orderBy('nombre')->get()
+    );
 });

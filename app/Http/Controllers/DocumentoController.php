@@ -9,29 +9,33 @@ class DocumentoController extends Controller
 {
     public function index(Request $request)
     {
-        
-        $docs = Documento::where('user_id', $request->user()->id)
-            ->with('tipoDocumento')
+        return Documento::where('user_id', $request->user()->id)
+            ->with(['area:id,nombre','tipoDocumento:id,nombre'])
             ->orderByDesc('created_at')
             ->get();
-
-        return response()->json($docs);
     }
 
     public function store(Request $request)
     {
-        $doc = Documento::create([
-            'user_id' => $request->user()->id,
-            'tipo_documento_id' => $request->tipo_documento_id,
-            'titulo' => $request->titulo,
-            'contenido' => $request->contenido,
-            'fecha_documento' => now()->toDateString(),
-            'hora_documento' => now()->toTimeString(),
+        $data = $request->validate([
+            'titulo'             => ['required','string','max:255'],
+            'contenido'          => ['nullable','string'],
+            'tipo_documento_id'  => ['required','exists:tipo_documento,id'], // o nullable si quieres
+            'area_id'            => ['required','exists:areas,id'],
         ]);
 
-        return response()->json([
-            'message' => 'Documento registrado correctamente',
-            'documento' => $doc
+        $doc = Documento::create([
+            'user_id'           => $request->user()->id,
+            'area_id'           => $data['area_id'],
+            'tipo_documento_id' => $data['tipo_documento_id'],
+            'titulo'            => $data['titulo'],
+            'contenido'         => $data['contenido'] ?? null,
+            'fecha_documento'   => now()->toDateString(),
+            'hora_documento'    => now()->format('H:i:s'),
         ]);
+
+        $doc->load('area:id,nombre','tipoDocumento:id,nombre');
+
+        return response()->json(['documento' => $doc], 201);
     }
 }
