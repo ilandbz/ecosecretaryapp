@@ -9,6 +9,7 @@ class DocumentoController extends Controller
 {
     public function index(Request $request)
     {
+        
         $docs = Documento::where('user_id', $request->user()->id)
             ->with('tipoDocumento')
             ->orderByDesc('created_at')
