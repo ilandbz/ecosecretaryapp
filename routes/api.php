@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,3 +19,9 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->get('/user-data', [UserController::class, 'getUserData']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/documentos', [DocumentoController::class, 'index']);   // listar
+    Route::post('/documentos', [DocumentoController::class, 'store']); // registrar
+    Route::get('/documentos/{id}', [DocumentoController::class, 'show']); // detalle
+});
