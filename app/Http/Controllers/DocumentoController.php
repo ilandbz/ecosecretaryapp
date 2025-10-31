@@ -20,7 +20,7 @@ class DocumentoController extends Controller
         $data = $request->validate([
             'titulo'             => ['required','string','max:255'],
             'contenido'          => ['nullable','string'],
-            'tipo_documento_id'  => ['required','exists:tipo_documento,id'], // o nullable si quieres
+            'tipo_documento_id'  => ['required','exists:tipo_documentos,id'],
             'area_id'            => ['required','exists:areas,id'],
         ]);
 
