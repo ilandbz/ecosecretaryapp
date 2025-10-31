@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Archivo;
 use App\Models\Documento;
 use Illuminate\Http\Request;
 
@@ -38,4 +39,31 @@ class DocumentoController extends Controller
 
         return response()->json(['documento' => $doc], 201);
     }
+
+    public function uploadArchivos(Request $request, \App\Models\Documento $documento)
+    {
+        $request->validate([
+            'files'   => ['required','array'],
+            'files.*' => ['file','max:5120','mimes:pdf,jpg,jpeg,png'] // 5MB
+        ]);
+
+        $guardados = [];
+        foreach ($request->file('files') as $i => $file) {
+            $path = $file->store("documentos/{$documento->id}", 'private');
+
+            $archivo = Archivo::create([
+                'documento_id' => $documento->id,
+                'nro'          => $i+1,
+                'ruta_archivo' => $path,
+            ]);
+
+            $guardados[] = $archivo;
+        }
+
+        return response()->json([
+            'message'  => 'Archivos subidos',
+            'archivos' => $guardados
+        ], 201);
+    }
+
 }

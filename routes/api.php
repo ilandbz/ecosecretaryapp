@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/documentos', [DocumentoController::class, 'store']); // registrar
     Route::get('/documentos/{id}', [DocumentoController::class, 'show']); // detalle
     Route::get('/tipo-documentos', [TipoDocumentoController::class, 'index']);
+    Route::post('/documentos/{documento}/archivos', [DocumentoController::class, 'uploadArchivos']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
