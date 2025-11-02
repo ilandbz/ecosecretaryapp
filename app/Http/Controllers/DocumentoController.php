@@ -10,10 +10,23 @@ class DocumentoController extends Controller
 {
     public function index(Request $request)
     {
-        return Documento::where('user_id', $request->user()->id)
+        /*return Documento::where('user_id', $request->user()->id)
             ->with(['area:id,nombre','tipoDocumento:id,nombre'])
             ->orderByDesc('created_at')
-            ->get();
+            ->get();*/
+        $user = $request->user();
+
+        $query = Documento::with(['tipoDocumento', 'area', 'user']);
+
+        if (!$user->isAdmin()) {
+            // Si no es administrador, solo muestra los documentos del usuario
+            $query->where('user_id', $user->id);
+        }
+
+        $documentos = $query->orderBy('fecha_documento', 'desc')->get();
+
+
+
     }
 
     public function store(Request $request)
