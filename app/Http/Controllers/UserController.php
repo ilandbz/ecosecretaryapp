@@ -19,7 +19,7 @@ class UserController extends Controller
             'dni' => $user->dni,
             'role' => $user->role ? [
                 'id' => $user->role->id,
-                'name' => $user->role->name,
+                'name' => $user->role->nombre,
             ] : null,
         ]);
     }
