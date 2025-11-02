@@ -25,7 +25,7 @@ class DocumentoController extends Controller
 
         $documentos = $query->orderBy('fecha_documento', 'desc')->get();
 
-
+        return response()->json($documentos);
 
     }
 
