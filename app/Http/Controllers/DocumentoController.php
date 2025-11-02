@@ -14,6 +14,7 @@ class DocumentoController extends Controller
             ->with(['area:id,nombre','tipoDocumento:id,nombre'])
             ->orderByDesc('created_at')
             ->get();*/
+    
         $user = $request->user();
 
         $query = Documento::with(['tipoDocumento', 'area', 'user']);

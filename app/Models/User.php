@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function persona() : HasOne
     {
-        return $this->hasOne(Persona::class, 'dni', 'dni');
+        return $this->hasOne(Persona::class, 'dni', 'num_dni');
     }
     public function isAdmin()
     {
