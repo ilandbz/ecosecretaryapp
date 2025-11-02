@@ -63,5 +63,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Persona::class, 'dni', 'dni');
     }
-    
+    public function isAdmin()
+    {
+        return in_array(strtoupper($this->role->nombre), ['ADMINISTRADOR', 'SUPER USUARIO']);
+    }
 }
