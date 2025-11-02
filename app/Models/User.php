@@ -59,10 +59,23 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function persona() : HasOne
+    public function persona()
     {
-        return $this->hasOne(Persona::class, 'dni', 'num_dni');
+        return $this->hasOne(Persona::class, 'numero_dni', 'dni');
     }
+
+    public function alumno()
+    {
+        return $this->hasOneThrough(
+            Alumno::class,     // modelo final
+            Persona::class,    // modelo intermedio
+            'numero_dni',      // FK en Persona que “apunta” a users.dni
+            'persona_id',      // FK en Alumno que apunta a personas.id
+            'dni',             // clave local en User
+            'id'               // clave local en Persona usada por Alumno
+        );
+    }
+
     public function isAdmin()
     {
         return in_array(strtoupper($this->role->nombre), ['ADMINISTRADOR', 'SUPER USUARIO']);
