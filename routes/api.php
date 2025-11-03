@@ -35,3 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Area::select('id','nombre')->orderBy('nombre')->get()
     );
 });
+
+
+Route::get('/documentos-publicos', function () {
+    return view('public.documentos');
+});
+

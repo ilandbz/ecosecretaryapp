@@ -80,4 +80,27 @@ class DocumentoController extends Controller
         ], 201);
     }
 
+
+    public function publicIndex(Request $request)
+{
+        // Permite filtrar por área o tipo de documento opcionalmente
+        $query = Documento::with(['tipoDocumento:id,nombre', 'area:id,nombre', 'user:id,name'])
+            ->orderByDesc('fecha_documento');
+
+        if ($request->filled('area_id')) {
+            $query->where('area_id', $request->area_id);
+        }
+        if ($request->filled('tipo_documento_id')) {
+            $query->where('tipo_documento_id', $request->tipo_documento_id);
+        }
+
+        // Retorna sin autenticación
+        $documentos = $query->get();
+
+        // Incluye archivos si existen
+        $documentos->load('archivos:id,documento_id,nro,ruta_archivo');
+
+        return response()->json($documentos);
+    }
+
 }
