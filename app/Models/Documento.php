@@ -13,4 +13,11 @@ class Documento extends Model
     public function area() { return $this->belongsTo(Area::class); }
     public function tipoDocumento() { return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id'); }
     public function user() { return $this->belongsTo(User::class); }
+
+    public function archivos()
+    {
+        // tabla: archivos, FK: documento_id
+        return $this->hasMany(Archivo::class, 'documento_id');
+    }
+
 }
