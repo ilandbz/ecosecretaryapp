@@ -30,13 +30,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/documentos/{documento}/archivos', [DocumentoController::class, 'uploadArchivos']);
 });
 
+
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/areas', fn() =>
         Area::select('id','nombre')->orderBy('nombre')->get()
     );
 });
 
-
+    Route::get('/public/documentos', [DocumentoController::class, 'publicIndex']); 
 Route::get('/documentos-publicos', function () {
     return view('public.documentos');
 });
