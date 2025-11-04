@@ -184,7 +184,7 @@
         method: 'POST',
         headers: { 'Accept':'application/json', 'Content-Type':'application/json' },
         // Cubrimos APIs que aceptan "email" o "username"
-        body: JSON.stringify({ email, username: email, password })
+        body: JSON.stringify({ name: email, password })
       });
       if (!res.ok) {
         let msg = 'Credenciales inválidas';
