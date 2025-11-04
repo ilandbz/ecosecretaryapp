@@ -83,11 +83,15 @@ class DocumentoController extends Controller
 
     public function publicIndex(Request $request)
     {
-        return 0;
-        $query = Documento::with(['tipoDocumento:id,nombre', 'area:id,nombre', 'user:id,name'])
+        $query = Documento::with([
+                'tipoDocumento:id,nombre',
+                'area:id,nombre',
+                'user:id,name'
+            ])
             ->orderByDesc('fecha_documento');
         // Retorna sin autenticación
         $documentos = $query->get();
+        return response()->json($documentos);
         if ($request->filled('area_id')) {
             $query->where('area_id', $request->area_id);
         }
