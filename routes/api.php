@@ -56,7 +56,8 @@ Route::middleware('auth:sanctum')->group(function () {
     );
 });
 
-    Route::get('/public/documentos', [DocumentoController::class, 'publicIndex']); 
+Route::get('/public/documentos', [DocumentoController::class, 'publicIndex']); 
+
 Route::get('/documentos-publicos', function () {
     return view('public.documentos');
 });

@@ -82,11 +82,11 @@ class DocumentoController extends Controller
 
 
     public function publicIndex(Request $request)
-{
-        // Permite filtrar por área o tipo de documento opcionalmente
+    {
         $query = Documento::with(['tipoDocumento:id,nombre', 'area:id,nombre', 'user:id,name'])
             ->orderByDesc('fecha_documento');
-
+        // Retorna sin autenticación
+        $documentos = $query->get();
         if ($request->filled('area_id')) {
             $query->where('area_id', $request->area_id);
         }
