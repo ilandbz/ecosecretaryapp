@@ -26,7 +26,7 @@
 
         <form id="frmLogin" autocomplete="on">
           <div class="mb-3">
-            <label class="form-label">Email o usuario</label>
+            <label class="form-label">Nombre</label>
             <input id="name" type="text" class="form-control" required autofocus>
           </div>
           <div class="mb-3">
