@@ -22,7 +22,19 @@ class Archivo extends Model
 
     public function getUrlAttribute()
     {
-        return Storage::disk('public')->url($this->ruta_archivo);
-        // Devuelve algo como: https://tu-dominio.com/storage/documentos/6/archivo.jpg
+        // Normaliza la ruta (arregla casos como "6documentos/...")
+        $path = ltrim($this->ruta_archivo, '/');
+        // si por error quedó "6documentos/..." lo reparamos
+        if (preg_match('/^\d+documentos\//', $path)) {
+            $path = preg_replace('/^\d+documentos\//', 'documentos/', $path);
+        }
+
+        // usa el disco public
+        if (Storage::disk('public')->exists($path)) {
+            return Storage::disk('public')->url($path);
+        }
+
+        // fallback por si la config de filesystems no devuelve url
+        return asset('storage/'.$path);
     }
 }
