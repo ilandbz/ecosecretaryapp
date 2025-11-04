@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Archivo;
 use App\Models\Documento;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 
 class DocumentoController extends Controller
@@ -79,7 +80,24 @@ class DocumentoController extends Controller
             'archivos' => $guardados
         ], 201);
     }
+    public function updateEstado(Request $request, $id)
+    {
+        // estados válidos
+        $valid = ['EMITIDO','EN REVISIÓN','APROBADO','OBSERVADO','RECHAZADO'];
 
+        $data = $request->validate([
+            'estado' => 'required|string|in:EMITIDO,EN REVISIÓN,APROBADO,OBSERVADO,RECHAZADO',
+        ]);
+
+        $doc = Documento::findOrFail($id);
+        $doc->estado = $data['estado'];
+        $doc->save();
+
+        return response()->json([
+            'ok' => true,
+            'documento' => $doc
+        ]);
+    }
     public function show($id)
     {
         $doc = Documento::with([
