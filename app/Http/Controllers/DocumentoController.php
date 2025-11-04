@@ -85,8 +85,6 @@ class DocumentoController extends Controller
     {
         $query = Documento::with([
                 'tipoDocumento:id,nombre',
-                'area:id,nombre',
-                'user:id,name'
             ])
             ->orderByDesc('fecha_documento');
         // Retorna sin autenticación
