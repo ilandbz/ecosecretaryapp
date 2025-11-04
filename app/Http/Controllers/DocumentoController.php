@@ -80,7 +80,16 @@ class DocumentoController extends Controller
         ], 201);
     }
 
+    public function show($id)
+    {
+        $doc = Documento::with([
+            'tipoDocumento:id,nombre',
+            'area:id,nombre',
+            'archivos:id,documento_id,nro,ruta_archivo'
+        ])->findOrFail($id);
 
+        return response()->json($doc);
+    }
     public function publicIndex(Request $request)
     {
         $query = Documento::with([

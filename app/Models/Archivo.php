@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Archivo extends Model
 {
@@ -17,5 +18,11 @@ class Archivo extends Model
     public function documento()
     {
         return $this->belongsTo(Documento::class);
+    }
+
+    public function getUrlAttribute()
+    {
+        return Storage::disk('public')->url($this->ruta_archivo);
+        // Devuelve algo como: https://tu-dominio.com/storage/documentos/6/archivo.jpg
     }
 }
