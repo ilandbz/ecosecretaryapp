@@ -27,7 +27,7 @@
         <form id="frmLogin" autocomplete="on">
           <div class="mb-3">
             <label class="form-label">Email o usuario</label>
-            <input id="email" type="text" class="form-control" required autofocus>
+            <input id="name" type="text" class="form-control" required autofocus>
           </div>
           <div class="mb-3">
             <label class="form-label">Contraseña</label>
@@ -65,7 +65,7 @@ document.getElementById('togglePass').addEventListener('click', () => {
 document.getElementById('frmLogin').addEventListener('submit', async (e) => {
   e.preventDefault();
   alertBox.classList.add('d-none');
-  const email = document.getElementById('email').value.trim();
+  const name = document.getElementById('name').value.trim();
   const password = document.getElementById('password').value;
 
   const btn = document.getElementById('btnLogin');
@@ -75,7 +75,7 @@ document.getElementById('frmLogin').addEventListener('submit', async (e) => {
     const res = await fetch(API_BASE + 'login', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, username: email, password }) // si tu API usa "email" o "username", lo cubrimos
+      body: JSON.stringify({ name, password }) // si tu API usa "email" o "username", lo cubrimos
     });
 
     if (!res.ok) {
