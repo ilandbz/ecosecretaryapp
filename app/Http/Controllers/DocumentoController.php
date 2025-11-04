@@ -63,7 +63,7 @@ class DocumentoController extends Controller
 
         $guardados = [];
         foreach ($request->file('files') as $i => $file) {
-            $path = $file->store("documentos/{$documento->id}", 'private');
+            $path = $file->store("documentos/{$documento->id}", 'public');
 
             $archivo = Archivo::create([
                 'documento_id' => $documento->id,
